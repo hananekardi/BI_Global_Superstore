@@ -1,0 +1,2387 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="12/8/2023 9:26:51 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="LAPTOP-PEE9EIMC"
+  DTS:CreatorName="LAPTOP-PEE9EIMC\hanane"
+  DTS:DTSID="{D7FD1172-E1EA-4193-A4CD-F55A133128BF}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5314.0"
+  DTS:LocaleID="14348"
+  DTS:ObjectName="Package"
+  DTS:PackageType="5"
+  DTS:VersionBuild="142"
+  DTS:VersionGUID="{7B672042-49DF-4B43-88F1-CE74335E52FE}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Gestionnaire de connexions Excel]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{1CF9E353-2C11-4D73-AFD7-48AA78181621}"
+      DTS:ObjectName="Gestionnaire de connexions Excel">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=G:\MyProject\Global Superstore Orders 2016.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LAPTOP-PEE9EIMC.DWH]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{A4D92570-21A8-40C5-BF02-A659DEB31D59}"
+      DTS:ObjectName="LAPTOP-PEE9EIMC.DWH">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=LAPTOP-PEE9EIMC;Initial Catalog=DWH;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-Package-{A4D92570-21A8-40C5-BF02-A659DEB31D59}LAPTOP-PEE9EIMC.DWH;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Tâche d'exécution de requêtes SQL"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tâche d'exécution de requêtes SQL"
+      DTS:DTSID="{D57E4B8A-6AA8-473A-B4F9-027D30B6C597}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Tâche d'exécution de requêtes SQL"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A4D92570-21A8-40C5-BF02-A659DEB31D59}"
+          SQLTask:SqlStatementSource="delete from [FactSales ];&#xA;delete from [DimProduct];&#xA;delete from [DimGeography];&#xA;delete from [DimCustomer];&#xA;delete from [DimDate];&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Tâche de flux de données"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Tâche de flux de données"
+      DTS:DTSID="{7FD12908-735F-4A2A-8A50-32C289E0B46C}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Tâche de flux de données"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Tâche de flux de données\Colonne dérivée"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Colonne dérivée;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;0"
+              description="Crée de nouvelles valeurs de colonne en appliquant des expressions aux colonnes d'entrée de transformation. Créez de nouvelles colonnes ou remplacez celles qui existent déjà. Par exemple, concaténez les valeurs de la colonne 'prénom' et de la colonne 'nom' pour créer une colonne 'nom complet'."
+              name="Colonne dérivée"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Tâche de flux de données\Colonne dérivée.Inputs[Entrée de colonne dérivée]"
+                  description="Entrée de la transformation de colonnes dérivées"
+                  name="Entrée de colonne dérivée">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Colonne dérivée.Inputs[Entrée de colonne dérivée].Columns[Order Date]"
+                      cachedDataType="date"
+                      cachedName="Order Date"
+                      errorOrTruncationOperation="Calcul"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Order Date]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression de colonne dérivée"
+                          name="Expression">(DT_DBDATE)([SUBSTRING]((DT_STR,20,1252)#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Order Date]},7,4) + "-" + [SUBSTRING]((DT_STR,20,1252)#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Order Date]},4,2) + "-" + [SUBSTRING]((DT_STR,20,1252)#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Order Date]},1,2))</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression claire de colonne dérivée"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_DBDATE)(SUBSTRING((DT_STR,20,1252)[Order Date],7,4) + "-" + SUBSTRING((DT_STR,20,1252)[Order Date],4,2) + "-" + SUBSTRING((DT_STR,20,1252)[Order Date],1,2))</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Colonne dérivée.Inputs[Entrée de colonne dérivée].Columns[Row ID]"
+                      cachedDataType="r8"
+                      cachedName="Row ID"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Row ID]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Colonne dérivée.Inputs[Entrée de colonne dérivée].Columns[Region]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Region"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Region]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Colonne dérivée.Inputs[Entrée de colonne dérivée].Columns[Customer ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Customer ID"
+                      errorOrTruncationOperation="Calcul"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Customer ID]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression de colonne dérivée"
+                          name="Expression">#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Customer ID]} + (DT_WSTR,5)#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Row ID]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression claire de colonne dérivée"
+                          expressionType="Notify"
+                          name="FriendlyExpression">[Customer ID] + (DT_WSTR,5)[Row ID]</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Colonne dérivée.Inputs[Entrée de colonne dérivée].Columns[Product ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Product ID"
+                      errorOrTruncationOperation="Calcul"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Product ID]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression de colonne dérivée"
+                          name="Expression">#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Product ID]} + (DT_WSTR,5)#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Row ID]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression claire de colonne dérivée"
+                          expressionType="Notify"
+                          name="FriendlyExpression">[Product ID] + (DT_WSTR,5)[Row ID]</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Colonne dérivée.Inputs[Entrée de colonne dérivée].Columns[Profit]"
+                      cachedDataType="cy"
+                      cachedName="Profit"
+                      errorOrTruncationOperation="Calcul"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Profit]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression de colonne dérivée"
+                          name="Expression">[REPLACE]((DT_STR,255,1252)#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Profit]},"$","")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression claire de colonne dérivée"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACE((DT_STR,255,1252)Profit,"$","")</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Colonne dérivée.Inputs[Entrée de colonne dérivée].Columns[Sales]"
+                      cachedDataType="cy"
+                      cachedName="Sales"
+                      errorOrTruncationOperation="Calcul"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Sales]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression de colonne dérivée"
+                          name="Expression">(DT_NUMERIC,18,2)[REPLACE]([REPLACE]((DT_STR,50,1252)#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Sales]},"$",""),",","")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression claire de colonne dérivée"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_NUMERIC,18,2)REPLACE(REPLACE((DT_STR,50,1252)Sales,"$",""),",","")</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Colonne dérivée.Inputs[Entrée de colonne dérivée].Columns[Ship Date]"
+                      cachedDataType="date"
+                      cachedName="Ship Date"
+                      errorOrTruncationOperation="Calcul"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Ship Date]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression de colonne dérivée"
+                          name="Expression">(DT_DBDATE)([SUBSTRING]((DT_STR,20,1252)#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Ship Date]},7,4) + "-" + [SUBSTRING]((DT_STR,20,1252)#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Ship Date]},4,2) + "-" + [SUBSTRING]((DT_STR,20,1252)#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Ship Date]},1,2))</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression claire de colonne dérivée"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_DBDATE)(SUBSTRING((DT_STR,20,1252)[Ship Date],7,4) + "-" + SUBSTRING((DT_STR,20,1252)[Ship Date],4,2) + "-" + SUBSTRING((DT_STR,20,1252)[Ship Date],1,2))</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Colonne dérivée.Inputs[Entrée de colonne dérivée].Columns[Segment]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Segment"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Segment]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée]"
+                  description="Sortie par défaut de la transformation de colonnes dérivées"
+                  exclusionGroup="1"
+                  name="Sortie de colonne dérivée"
+                  synchronousInputId="Package\Tâche de flux de données\Colonne dérivée.Inputs[Entrée de colonne dérivée]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[DateID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Calcul"
+                      errorRowDisposition="FailComponent"
+                      length="10"
+                      lineageId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[DateID]"
+                      name="DateID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression de colonne dérivée"
+                          name="Expression">(DT_WSTR,5)[YEAR](#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Order Date]}) + (DT_WSTR,5)#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Row ID]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression claire de colonne dérivée"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_WSTR,5)YEAR([Order Date]) + (DT_WSTR,5)[Row ID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[GeographyID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Calcul"
+                      errorRowDisposition="FailComponent"
+                      length="261"
+                      lineageId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[GeographyID]"
+                      name="GeographyID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression de colonne dérivée"
+                          name="Expression">"R" + #{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Region]} + (DT_WSTR,5)#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Row ID]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression claire de colonne dérivée"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"R" + Region + (DT_WSTR,5)[Row ID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[Year]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Calcul"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[Year]"
+                      name="Year"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression de colonne dérivée"
+                          name="Expression">[YEAR](#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Order Date]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression claire de colonne dérivée"
+                          expressionType="Notify"
+                          name="FriendlyExpression">YEAR([Order Date])</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[Month]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Calcul"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[Month]"
+                      name="Month"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression de colonne dérivée"
+                          name="Expression">[MONTH](#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Order Date]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression claire de colonne dérivée"
+                          expressionType="Notify"
+                          name="FriendlyExpression">MONTH([Order Date])</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[Day]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Calcul"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[Day]"
+                      name="Day"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression de colonne dérivée"
+                          name="Expression">[DAY](#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Order Date]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression claire de colonne dérivée"
+                          expressionType="Notify"
+                          name="FriendlyExpression">DAY([Order Date])</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[Shipping Duration]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Calcul"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[Shipping Duration]"
+                      name="Shipping Duration"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression de colonne dérivée"
+                          name="Expression">[DATEDIFF]("dd",#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Order Date]},#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Ship Date]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression claire de colonne dérivée"
+                          expressionType="Notify"
+                          name="FriendlyExpression">DATEDIFF("dd",[Order Date],[Ship Date])</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[CustomerSegment]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Calcul"
+                      errorRowDisposition="FailComponent"
+                      length="17"
+                      lineageId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[CustomerSegment]"
+                      name="CustomerSegment"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression de colonne dérivée"
+                          name="Expression">(#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Segment]} == "Consumer" ? "Particulier" : (#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Segment]} == "Corporate" ? "Entreprise" : (#{Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Segment]} == "Home Office" ? "Bureau à domicile" : "Autre")))</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression claire de colonne dérivée"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(Segment == "Consumer" ? "Particulier" : (Segment == "Corporate" ? "Entreprise" : (Segment == "Home Office" ? "Bureau à domicile" : "Autre")))</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie d'erreur de colonne dérivée]"
+                  description="Sortie d'erreur de la transformation de colonnes dérivées"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de colonne dérivée"
+                  synchronousInputId="Package\Tâche de flux de données\Colonne dérivée.Inputs[Entrée de colonne dérivée]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie d'erreur de colonne dérivée].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie d'erreur de colonne dérivée].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie d'erreur de colonne dérivée].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie d'erreur de colonne dérivée].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Tâche de flux de données\Destination OLE DB"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Destination OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;4"
+              description="Destination OLE DB"
+              name="Destination OLE DB"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Nombre de secondes avant l'expiration d'une commande.  Une valeur égale à 0 indique un délai d'expiration infini."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowset">[dbo].[FactSales]</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie la variable contenant le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Commande SQL à exécuter."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie la page de codes de la colonne à utiliser lorsque les informations de page de codes ne sont pas disponibles à partir de la source de données."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Force l'utilisation de la valeur de propriété DefaultCodePage lors de la description des données caractères."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le mode utilisé pour accéder à la base de données."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indique si les valeurs fournies pour les colonnes d'identité seront copiées à la destination. Si la valeur est définie à False, les valeurs des colonnes d'identité seront générées automatiquement à la destination. Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indique si les colonnes contenant la valeur NULL auront cette valeur NULL copiée à la destination. Si la valeur est définie à False, les colonnes contenant la valeur NULL auront leurs valeurs par défaut insérées à la destination. Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie les options à utiliser avec le chargement rapide.  Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie quand les validations sont émises pendant l'insertion des données.  Une valeur égale à 0 spécifie qu'une validation sera émise à la fin de l'insertion des données.  Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Tâche de flux de données\Destination OLE DB.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LAPTOP-PEE9EIMC.DWH]"
+                  connectionManagerRefId="Package.ConnectionManagers[LAPTOP-PEE9EIMC.DWH]"
+                  description="Connexion OLE DB en cours d'exécution utilisée pour accéder à la base de données."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB]"
+                  errorOrTruncationOperation="Insérer"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrée de destination OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].Columns[Discount]"
+                      cachedDataType="r8"
+                      cachedName="Discount"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[Discount]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Discount]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].Columns[Profit]"
+                      cachedDataType="cy"
+                      cachedName="Profit"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[Profit]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Profit]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].Columns[DateID]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="DateID"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[DateID]"
+                      lineageId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[DateID]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].Columns[GeographyID]"
+                      cachedDataType="wstr"
+                      cachedLength="261"
+                      cachedName="GeographyID"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[GeographyID]"
+                      lineageId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[GeographyID]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].Columns[Row ID]"
+                      cachedDataType="r8"
+                      cachedName="Row ID"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[SaleID]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Row ID]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].Columns[Customer ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Customer ID"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[CustomerID]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Customer ID]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].Columns[Product ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Product ID"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[ProductID]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Product ID]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].Columns[Sales]"
+                      cachedDataType="cy"
+                      cachedName="Sales"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[SalesAmount]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Sales]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].Columns[Quantity]"
+                      cachedDataType="r8"
+                      cachedName="Quantity"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[Quantity]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Quantity]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].Columns[Shipping Cost]"
+                      cachedDataType="r8"
+                      cachedName="Shipping Cost"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[ShippingCost]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Shipping Cost]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].Columns[Order Priority]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Order Priority"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[OrderPriority]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Order Priority]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].Columns[Shipping Duration]"
+                      cachedDataType="i4"
+                      cachedName="Shipping Duration"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[ShippingDuration]"
+                      lineageId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[Shipping Duration]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].Columns[CustomerSegment]"
+                      cachedDataType="wstr"
+                      cachedLength="17"
+                      cachedName="CustomerSegment"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[CustomerSegment]"
+                      lineageId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[CustomerSegment]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[SaleID]"
+                      dataType="i4"
+                      name="SaleID" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[DateID]"
+                      dataType="wstr"
+                      length="50"
+                      name="DateID" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[CustomerID]"
+                      dataType="wstr"
+                      length="255"
+                      name="CustomerID" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[ProductID]"
+                      dataType="wstr"
+                      length="255"
+                      name="ProductID" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[GeographyID]"
+                      dataType="wstr"
+                      length="50"
+                      name="GeographyID" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[SalesAmount]"
+                      dataType="numeric"
+                      name="SalesAmount"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[Quantity]"
+                      dataType="i4"
+                      name="Quantity" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[Discount]"
+                      dataType="numeric"
+                      name="Discount"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[Profit]"
+                      dataType="numeric"
+                      name="Profit"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[ShippingCost]"
+                      dataType="numeric"
+                      name="ShippingCost"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[OrderPriority]"
+                      dataType="wstr"
+                      length="50"
+                      name="OrderPriority" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[ShippingDuration]"
+                      dataType="i4"
+                      name="ShippingDuration" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[CustomerSegment]"
+                      dataType="wstr"
+                      length="50"
+                      name="CustomerSegment" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Tâche de flux de données\Destination OLE DB.Outputs[Sortie d'erreur de destination OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de destination OLE DB"
+                  synchronousInputId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données\Destination OLE DB.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Destination OLE DB.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données\Destination OLE DB.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Tâche de flux de données\Dim_Customer"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Destination OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;4"
+              description="Destination OLE DB"
+              name="Dim_Customer"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Nombre de secondes avant l'expiration d'une commande.  Une valeur égale à 0 indique un délai d'expiration infini."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowset">[dbo].[DimCustomer]</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie la variable contenant le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Commande SQL à exécuter."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie la page de codes de la colonne à utiliser lorsque les informations de page de codes ne sont pas disponibles à partir de la source de données."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Force l'utilisation de la valeur de propriété DefaultCodePage lors de la description des données caractères."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le mode utilisé pour accéder à la base de données."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indique si les valeurs fournies pour les colonnes d'identité seront copiées à la destination. Si la valeur est définie à False, les valeurs des colonnes d'identité seront générées automatiquement à la destination. Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indique si les colonnes contenant la valeur NULL auront cette valeur NULL copiée à la destination. Si la valeur est définie à False, les colonnes contenant la valeur NULL auront leurs valeurs par défaut insérées à la destination. Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie les options à utiliser avec le chargement rapide.  Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie quand les validations sont émises pendant l'insertion des données.  Une valeur égale à 0 spécifie qu'une validation sera émise à la fin de l'insertion des données.  Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Tâche de flux de données\Dim_Customer.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LAPTOP-PEE9EIMC.DWH]"
+                  connectionManagerRefId="Package.ConnectionManagers[LAPTOP-PEE9EIMC.DWH]"
+                  description="Connexion OLE DB en cours d'exécution utilisée pour accéder à la base de données."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Tâche de flux de données\Dim_Customer.Inputs[Entrée de destination OLE DB]"
+                  errorOrTruncationOperation="Insérer"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrée de destination OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Dim_Customer.Inputs[Entrée de destination OLE DB].Columns[Segment]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Segment"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Dim_Customer.Inputs[Entrée de destination OLE DB].ExternalColumns[Segment]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Segment]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Dim_Customer.Inputs[Entrée de destination OLE DB].Columns[Customer ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Customer ID"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Dim_Customer.Inputs[Entrée de destination OLE DB].ExternalColumns[CustomerID]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Customer ID]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Dim_Customer.Inputs[Entrée de destination OLE DB].Columns[Customer Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Customer Name"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Dim_Customer.Inputs[Entrée de destination OLE DB].ExternalColumns[CustomerName]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Customer Name]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Dim_Customer.Inputs[Entrée de destination OLE DB].ExternalColumns[CustomerID]"
+                      dataType="wstr"
+                      length="255"
+                      name="CustomerID" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Dim_Customer.Inputs[Entrée de destination OLE DB].ExternalColumns[CustomerName]"
+                      dataType="wstr"
+                      length="255"
+                      name="CustomerName" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Dim_Customer.Inputs[Entrée de destination OLE DB].ExternalColumns[Segment]"
+                      dataType="wstr"
+                      length="255"
+                      name="Segment" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Tâche de flux de données\Dim_Customer.Outputs[Sortie d'erreur de destination OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de destination OLE DB"
+                  synchronousInputId="Package\Tâche de flux de données\Dim_Customer.Inputs[Entrée de destination OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Dim_Customer.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données\Dim_Customer.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Dim_Customer.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données\Dim_Customer.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Tâche de flux de données\Dim_Date"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Destination OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;4"
+              description="Destination OLE DB"
+              name="Dim_Date"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Nombre de secondes avant l'expiration d'une commande.  Une valeur égale à 0 indique un délai d'expiration infini."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowset">[dbo].[DimDate]</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie la variable contenant le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Commande SQL à exécuter."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie la page de codes de la colonne à utiliser lorsque les informations de page de codes ne sont pas disponibles à partir de la source de données."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Force l'utilisation de la valeur de propriété DefaultCodePage lors de la description des données caractères."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le mode utilisé pour accéder à la base de données."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indique si les valeurs fournies pour les colonnes d'identité seront copiées à la destination. Si la valeur est définie à False, les valeurs des colonnes d'identité seront générées automatiquement à la destination. Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indique si les colonnes contenant la valeur NULL auront cette valeur NULL copiée à la destination. Si la valeur est définie à False, les colonnes contenant la valeur NULL auront leurs valeurs par défaut insérées à la destination. Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie les options à utiliser avec le chargement rapide.  Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie quand les validations sont émises pendant l'insertion des données.  Une valeur égale à 0 spécifie qu'une validation sera émise à la fin de l'insertion des données.  Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Tâche de flux de données\Dim_Date.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LAPTOP-PEE9EIMC.DWH]"
+                  connectionManagerRefId="Package.ConnectionManagers[LAPTOP-PEE9EIMC.DWH]"
+                  description="Connexion OLE DB en cours d'exécution utilisée pour accéder à la base de données."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Tâche de flux de données\Dim_Date.Inputs[Entrée de destination OLE DB]"
+                  errorOrTruncationOperation="Insérer"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrée de destination OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Dim_Date.Inputs[Entrée de destination OLE DB].Columns[Year]"
+                      cachedDataType="i4"
+                      cachedName="Year"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Dim_Date.Inputs[Entrée de destination OLE DB].ExternalColumns[Year]"
+                      lineageId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[Year]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Dim_Date.Inputs[Entrée de destination OLE DB].Columns[Month]"
+                      cachedDataType="i4"
+                      cachedName="Month"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Dim_Date.Inputs[Entrée de destination OLE DB].ExternalColumns[Month]"
+                      lineageId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[Month]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Dim_Date.Inputs[Entrée de destination OLE DB].Columns[Day]"
+                      cachedDataType="i4"
+                      cachedName="Day"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Dim_Date.Inputs[Entrée de destination OLE DB].ExternalColumns[Day]"
+                      lineageId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[Day]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Dim_Date.Inputs[Entrée de destination OLE DB].Columns[DateID]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="DateID"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Dim_Date.Inputs[Entrée de destination OLE DB].ExternalColumns[DateID]"
+                      lineageId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[DateID]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Dim_Date.Inputs[Entrée de destination OLE DB].Columns[Order Date]"
+                      cachedDataType="date"
+                      cachedName="Order Date"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Dim_Date.Inputs[Entrée de destination OLE DB].ExternalColumns[FullDate]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Order Date]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Dim_Date.Inputs[Entrée de destination OLE DB].ExternalColumns[DateID]"
+                      dataType="wstr"
+                      length="50"
+                      name="DateID" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Dim_Date.Inputs[Entrée de destination OLE DB].ExternalColumns[FullDate]"
+                      dataType="dbDate"
+                      name="FullDate" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Dim_Date.Inputs[Entrée de destination OLE DB].ExternalColumns[Year]"
+                      dataType="i4"
+                      name="Year" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Dim_Date.Inputs[Entrée de destination OLE DB].ExternalColumns[Month]"
+                      dataType="i4"
+                      name="Month" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Dim_Date.Inputs[Entrée de destination OLE DB].ExternalColumns[Day]"
+                      dataType="i4"
+                      name="Day" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Tâche de flux de données\Dim_Date.Outputs[Sortie d'erreur de destination OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de destination OLE DB"
+                  synchronousInputId="Package\Tâche de flux de données\Dim_Date.Inputs[Entrée de destination OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Dim_Date.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données\Dim_Date.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Dim_Date.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données\Dim_Date.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Tâche de flux de données\Dim_Geography"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Destination OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;4"
+              description="Destination OLE DB"
+              name="Dim_Geography"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Nombre de secondes avant l'expiration d'une commande.  Une valeur égale à 0 indique un délai d'expiration infini."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowset">[dbo].[DimGeography]</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie la variable contenant le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Commande SQL à exécuter."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie la page de codes de la colonne à utiliser lorsque les informations de page de codes ne sont pas disponibles à partir de la source de données."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Force l'utilisation de la valeur de propriété DefaultCodePage lors de la description des données caractères."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le mode utilisé pour accéder à la base de données."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indique si les valeurs fournies pour les colonnes d'identité seront copiées à la destination. Si la valeur est définie à False, les valeurs des colonnes d'identité seront générées automatiquement à la destination. Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indique si les colonnes contenant la valeur NULL auront cette valeur NULL copiée à la destination. Si la valeur est définie à False, les colonnes contenant la valeur NULL auront leurs valeurs par défaut insérées à la destination. Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie les options à utiliser avec le chargement rapide.  Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie quand les validations sont émises pendant l'insertion des données.  Une valeur égale à 0 spécifie qu'une validation sera émise à la fin de l'insertion des données.  Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Tâche de flux de données\Dim_Geography.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LAPTOP-PEE9EIMC.DWH]"
+                  connectionManagerRefId="Package.ConnectionManagers[LAPTOP-PEE9EIMC.DWH]"
+                  description="Connexion OLE DB en cours d'exécution utilisée pour accéder à la base de données."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Tâche de flux de données\Dim_Geography.Inputs[Entrée de destination OLE DB]"
+                  errorOrTruncationOperation="Insérer"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrée de destination OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Dim_Geography.Inputs[Entrée de destination OLE DB].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="City"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Dim_Geography.Inputs[Entrée de destination OLE DB].ExternalColumns[City]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[City]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Dim_Geography.Inputs[Entrée de destination OLE DB].Columns[State]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="State"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Dim_Geography.Inputs[Entrée de destination OLE DB].ExternalColumns[State]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[State]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Dim_Geography.Inputs[Entrée de destination OLE DB].Columns[Country]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Country"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Dim_Geography.Inputs[Entrée de destination OLE DB].ExternalColumns[Country]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Country]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Dim_Geography.Inputs[Entrée de destination OLE DB].Columns[Region]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Region"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Dim_Geography.Inputs[Entrée de destination OLE DB].ExternalColumns[Region]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Region]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Dim_Geography.Inputs[Entrée de destination OLE DB].Columns[Market]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Market"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Dim_Geography.Inputs[Entrée de destination OLE DB].ExternalColumns[Market]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Market]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Dim_Geography.Inputs[Entrée de destination OLE DB].Columns[GeographyID]"
+                      cachedDataType="wstr"
+                      cachedLength="261"
+                      cachedName="GeographyID"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Dim_Geography.Inputs[Entrée de destination OLE DB].ExternalColumns[GeographyID]"
+                      lineageId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[GeographyID]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Dim_Geography.Inputs[Entrée de destination OLE DB].ExternalColumns[GeographyID]"
+                      dataType="wstr"
+                      length="50"
+                      name="GeographyID" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Dim_Geography.Inputs[Entrée de destination OLE DB].ExternalColumns[Country]"
+                      dataType="wstr"
+                      length="50"
+                      name="Country" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Dim_Geography.Inputs[Entrée de destination OLE DB].ExternalColumns[State]"
+                      dataType="wstr"
+                      length="50"
+                      name="State" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Dim_Geography.Inputs[Entrée de destination OLE DB].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="50"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Dim_Geography.Inputs[Entrée de destination OLE DB].ExternalColumns[Region]"
+                      dataType="wstr"
+                      length="50"
+                      name="Region" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Dim_Geography.Inputs[Entrée de destination OLE DB].ExternalColumns[Market]"
+                      dataType="wstr"
+                      length="50"
+                      name="Market" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Tâche de flux de données\Dim_Geography.Outputs[Sortie d'erreur de destination OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de destination OLE DB"
+                  synchronousInputId="Package\Tâche de flux de données\Dim_Geography.Inputs[Entrée de destination OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Dim_Geography.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données\Dim_Geography.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Dim_Geography.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données\Dim_Geography.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Tâche de flux de données\Dim_Product"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Destination OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;4"
+              description="Destination OLE DB"
+              name="Dim_Product"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Nombre de secondes avant l'expiration d'une commande.  Une valeur égale à 0 indique un délai d'expiration infini."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowset">[dbo].[DimProduct]</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie la variable contenant le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Commande SQL à exécuter."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie la page de codes de la colonne à utiliser lorsque les informations de page de codes ne sont pas disponibles à partir de la source de données."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Force l'utilisation de la valeur de propriété DefaultCodePage lors de la description des données caractères."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le mode utilisé pour accéder à la base de données."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indique si les valeurs fournies pour les colonnes d'identité seront copiées à la destination. Si la valeur est définie à False, les valeurs des colonnes d'identité seront générées automatiquement à la destination. Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indique si les colonnes contenant la valeur NULL auront cette valeur NULL copiée à la destination. Si la valeur est définie à False, les colonnes contenant la valeur NULL auront leurs valeurs par défaut insérées à la destination. Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie les options à utiliser avec le chargement rapide.  Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie quand les validations sont émises pendant l'insertion des données.  Une valeur égale à 0 spécifie qu'une validation sera émise à la fin de l'insertion des données.  Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Tâche de flux de données\Dim_Product.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LAPTOP-PEE9EIMC.DWH]"
+                  connectionManagerRefId="Package.ConnectionManagers[LAPTOP-PEE9EIMC.DWH]"
+                  description="Connexion OLE DB en cours d'exécution utilisée pour accéder à la base de données."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Tâche de flux de données\Dim_Product.Inputs[Entrée de destination OLE DB]"
+                  errorOrTruncationOperation="Insérer"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrée de destination OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Dim_Product.Inputs[Entrée de destination OLE DB].Columns[Category]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Category"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Dim_Product.Inputs[Entrée de destination OLE DB].ExternalColumns[Category]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Category]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Dim_Product.Inputs[Entrée de destination OLE DB].Columns[Product ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Product ID"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Dim_Product.Inputs[Entrée de destination OLE DB].ExternalColumns[ProductID]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Product ID]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Dim_Product.Inputs[Entrée de destination OLE DB].Columns[Product Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Product Name"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Dim_Product.Inputs[Entrée de destination OLE DB].ExternalColumns[ProductName]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Product Name]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données\Dim_Product.Inputs[Entrée de destination OLE DB].Columns[Sub-Category]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Sub-Category"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Dim_Product.Inputs[Entrée de destination OLE DB].ExternalColumns[SubCategory]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Sub-Category]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Dim_Product.Inputs[Entrée de destination OLE DB].ExternalColumns[ProductID]"
+                      dataType="wstr"
+                      length="50"
+                      name="ProductID" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Dim_Product.Inputs[Entrée de destination OLE DB].ExternalColumns[ProductName]"
+                      dataType="wstr"
+                      length="100"
+                      name="ProductName" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Dim_Product.Inputs[Entrée de destination OLE DB].ExternalColumns[Category]"
+                      dataType="wstr"
+                      length="50"
+                      name="Category" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Dim_Product.Inputs[Entrée de destination OLE DB].ExternalColumns[SubCategory]"
+                      dataType="wstr"
+                      length="50"
+                      name="SubCategory" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Tâche de flux de données\Dim_Product.Outputs[Sortie d'erreur de destination OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de destination OLE DB"
+                  synchronousInputId="Package\Tâche de flux de données\Dim_Product.Inputs[Entrée de destination OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Dim_Product.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données\Dim_Product.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Dim_Product.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données\Dim_Product.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Tâche de flux de données\Multidiffusion"
+              componentClassID="Microsoft.Multicast"
+              contactInfo="Multidiffusion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;0"
+              description="Distribue chaque ligne d'entrée à chaque ligne dans au moins une sortie. Par exemple, connectez votre flux de données pour effectuer une copie des données afin que certaines valeurs puissent être masquées avant de les partager avec des partenaires externes."
+              name="Multidiffusion">
+              <inputs>
+                <input
+                  refId="Package\Tâche de flux de données\Multidiffusion.Inputs[Multidiffusion entrée 1]"
+                  name="Multidiffusion entrée 1">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Tâche de flux de données\Multidiffusion.Outputs[Sortie de multidiffusion 4]"
+                  deleteOutputOnPathDetached="true"
+                  name="Sortie de multidiffusion 4"
+                  synchronousInputId="Package\Tâche de flux de données\Multidiffusion.Inputs[Multidiffusion entrée 1]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Tâche de flux de données\Multidiffusion.Outputs[Sortie de multidiffusion 5]"
+                  deleteOutputOnPathDetached="true"
+                  name="Sortie de multidiffusion 5"
+                  synchronousInputId="Package\Tâche de flux de données\Multidiffusion.Inputs[Multidiffusion entrée 1]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Tâche de flux de données\Multidiffusion.Outputs[Sortie de multidiffusion 2]"
+                  deleteOutputOnPathDetached="true"
+                  name="Sortie de multidiffusion 2"
+                  synchronousInputId="Package\Tâche de flux de données\Multidiffusion.Inputs[Multidiffusion entrée 1]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Tâche de flux de données\Multidiffusion.Outputs[Sortie de multidiffusion 3]"
+                  deleteOutputOnPathDetached="true"
+                  name="Sortie de multidiffusion 3"
+                  synchronousInputId="Package\Tâche de flux de données\Multidiffusion.Inputs[Multidiffusion entrée 1]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Tâche de flux de données\Multidiffusion.Outputs[Sortie de multidiffusion 6]"
+                  deleteOutputOnPathDetached="true"
+                  name="Sortie de multidiffusion 6"
+                  synchronousInputId="Package\Tâche de flux de données\Multidiffusion.Inputs[Multidiffusion entrée 1]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Tâche de flux de données\Multidiffusion.Outputs[Sortie de multidiffusion 1]"
+                  dangling="true"
+                  deleteOutputOnPathDetached="true"
+                  name="Sortie de multidiffusion 1"
+                  synchronousInputId="Package\Tâche de flux de données\Multidiffusion.Inputs[Multidiffusion entrée 1]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Tâche de flux de données\Source Excel"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Source Excel;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;1"
+              description="Source Excel"
+              name="Source Excel"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Nombre de secondes avant l'expiration d'une commande.  Une valeur égale à 0 indique un délai d'expiration infini."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowset">Orders$</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie la variable contenant le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Commande SQL à exécuter."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="Variable contenant la commande SQL à exécuter."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le mode utilisé pour accéder à la base de données."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="Mappage des paramètres de la commande SQL en variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Tâche de flux de données\Source Excel.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Gestionnaire de connexions Excel]"
+                  connectionManagerRefId="Package.ConnectionManagers[Gestionnaire de connexions Excel]"
+                  description="Connexion OLE DB en cours d'exécution utilisée pour accéder à la base de données."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel]"
+                  name="Sortie de source Excel">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Row ID]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Row ID]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Row ID]"
+                      name="Row ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Order ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Order ID]"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Order ID]"
+                      name="Order ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Order Date]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Order Date]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Order Date]"
+                      name="Order Date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Ship Date]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Ship Date]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Ship Date]"
+                      name="Ship Date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Ship Mode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Ship Mode]"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Ship Mode]"
+                      name="Ship Mode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Customer ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Customer ID]"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Customer ID]"
+                      name="Customer ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Customer Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Customer Name]"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Customer Name]"
+                      name="Customer Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Segment]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Segment]"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Segment]"
+                      name="Segment"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Postal Code]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Postal Code]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Postal Code]"
+                      name="Postal Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[City]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[City]"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[City]"
+                      name="City"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[State]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[State]"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[State]"
+                      name="State"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Country]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Country]"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Country]"
+                      name="Country"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Region]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Region]"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Region]"
+                      name="Region"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Market]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Market]"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Market]"
+                      name="Market"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Product ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Product ID]"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Product ID]"
+                      name="Product ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Category]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Category]"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Category]"
+                      name="Category"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Sub-Category]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Sub-Category]"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Sub-Category]"
+                      name="Sub-Category"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Product Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Product Name]"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Product Name]"
+                      name="Product Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Sales]"
+                      dataType="cy"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Sales]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Sales]"
+                      name="Sales"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Quantity]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Quantity]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Quantity]"
+                      name="Quantity"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Discount]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Discount]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Discount]"
+                      name="Discount"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Profit]"
+                      dataType="cy"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Profit]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Profit]"
+                      name="Profit"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Shipping Cost]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Shipping Cost]"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Shipping Cost]"
+                      name="Shipping Cost"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Order Priority]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Order Priority]"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].Columns[Order Priority]"
+                      name="Order Priority"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Row ID]"
+                      dataType="r8"
+                      name="Row ID" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Order ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Order ID" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Order Date]"
+                      dataType="date"
+                      name="Order Date" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Ship Date]"
+                      dataType="date"
+                      name="Ship Date" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Ship Mode]"
+                      dataType="wstr"
+                      length="255"
+                      name="Ship Mode" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Customer ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Customer ID" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Customer Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Customer Name" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Segment]"
+                      dataType="wstr"
+                      length="255"
+                      name="Segment" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Postal Code]"
+                      dataType="r8"
+                      name="Postal Code" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="255"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[State]"
+                      dataType="wstr"
+                      length="255"
+                      name="State" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Country]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Region]"
+                      dataType="wstr"
+                      length="255"
+                      name="Region" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Market]"
+                      dataType="wstr"
+                      length="255"
+                      name="Market" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Product ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Product ID" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Category]"
+                      dataType="wstr"
+                      length="255"
+                      name="Category" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Sub-Category]"
+                      dataType="wstr"
+                      length="255"
+                      name="Sub-Category" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Product Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Product Name" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Sales]"
+                      dataType="cy"
+                      name="Sales" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Quantity]"
+                      dataType="r8"
+                      name="Quantity" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Discount]"
+                      dataType="r8"
+                      name="Discount" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Profit]"
+                      dataType="cy"
+                      name="Profit" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Shipping Cost]"
+                      dataType="r8"
+                      name="Shipping Cost" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel].ExternalColumns[Order Priority]"
+                      dataType="wstr"
+                      length="255"
+                      name="Order Priority" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel]"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de source Excel">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Row ID]"
+                      dataType="r8"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Row ID]"
+                      name="Row ID" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Order ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Order ID]"
+                      name="Order ID" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Order Date]"
+                      dataType="date"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Order Date]"
+                      name="Order Date" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Ship Date]"
+                      dataType="date"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Ship Date]"
+                      name="Ship Date" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Ship Mode]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Ship Mode]"
+                      name="Ship Mode" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Customer ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Customer ID]"
+                      name="Customer ID" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Customer Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Customer Name]"
+                      name="Customer Name" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Segment]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Segment]"
+                      name="Segment" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Postal Code]"
+                      dataType="r8"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Postal Code]"
+                      name="Postal Code" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[City]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[City]"
+                      name="City" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[State]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[State]"
+                      name="State" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Country]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Country]"
+                      name="Country" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Region]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Region]"
+                      name="Region" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Market]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Market]"
+                      name="Market" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Product ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Product ID]"
+                      name="Product ID" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Category]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Category]"
+                      name="Category" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Sub-Category]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Sub-Category]"
+                      name="Sub-Category" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Product Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Product Name]"
+                      name="Product Name" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Sales]"
+                      dataType="cy"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Sales]"
+                      name="Sales" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Quantity]"
+                      dataType="r8"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Quantity]"
+                      name="Quantity" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Discount]"
+                      dataType="r8"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Discount]"
+                      name="Discount" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Profit]"
+                      dataType="cy"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Profit]"
+                      name="Profit" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Shipping Cost]"
+                      dataType="r8"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Shipping Cost]"
+                      name="Shipping Cost" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Order Priority]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[Order Priority]"
+                      name="Order Priority" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie d'erreur de source Excel].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Tâche de flux de données.Paths[Sortie de colonne dérivée]"
+              endId="Package\Tâche de flux de données\Multidiffusion.Inputs[Multidiffusion entrée 1]"
+              name="Sortie de colonne dérivée"
+              startId="Package\Tâche de flux de données\Colonne dérivée.Outputs[Sortie de colonne dérivée]" />
+            <path
+              refId="Package\Tâche de flux de données.Paths[Sortie de multidiffusion 2]"
+              endId="Package\Tâche de flux de données\Dim_Customer.Inputs[Entrée de destination OLE DB]"
+              name="Sortie de multidiffusion 2"
+              startId="Package\Tâche de flux de données\Multidiffusion.Outputs[Sortie de multidiffusion 2]" />
+            <path
+              refId="Package\Tâche de flux de données.Paths[Sortie de multidiffusion 3]"
+              endId="Package\Tâche de flux de données\Dim_Date.Inputs[Entrée de destination OLE DB]"
+              name="Sortie de multidiffusion 3"
+              startId="Package\Tâche de flux de données\Multidiffusion.Outputs[Sortie de multidiffusion 3]" />
+            <path
+              refId="Package\Tâche de flux de données.Paths[Sortie de multidiffusion 4]"
+              endId="Package\Tâche de flux de données\Dim_Product.Inputs[Entrée de destination OLE DB]"
+              name="Sortie de multidiffusion 4"
+              startId="Package\Tâche de flux de données\Multidiffusion.Outputs[Sortie de multidiffusion 4]" />
+            <path
+              refId="Package\Tâche de flux de données.Paths[Sortie de multidiffusion 5]"
+              endId="Package\Tâche de flux de données\Dim_Geography.Inputs[Entrée de destination OLE DB]"
+              name="Sortie de multidiffusion 5"
+              startId="Package\Tâche de flux de données\Multidiffusion.Outputs[Sortie de multidiffusion 5]" />
+            <path
+              refId="Package\Tâche de flux de données.Paths[Sortie de multidiffusion 6]"
+              endId="Package\Tâche de flux de données\Destination OLE DB.Inputs[Entrée de destination OLE DB]"
+              name="Sortie de multidiffusion 6"
+              startId="Package\Tâche de flux de données\Multidiffusion.Outputs[Sortie de multidiffusion 6]" />
+            <path
+              refId="Package\Tâche de flux de données.Paths[Sortie de source Excel]"
+              endId="Package\Tâche de flux de données\Colonne dérivée.Inputs[Entrée de colonne dérivée]"
+              name="Sortie de source Excel"
+              startId="Package\Tâche de flux de données\Source Excel.Outputs[Sortie de source Excel]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Contrainte]"
+      DTS:CreationName=""
+      DTS:DTSID="{BD7E7CF5-255B-4DE2-9F7E-909F533FC3DC}"
+      DTS:From="Package\Tâche d'exécution de requêtes SQL"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Contrainte"
+      DTS:To="Package\Tâche de flux de données" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Cette section CDATA contient des informations sur la disposition du package. Elle comprend des informations telles que les coordonnées (x,y), la largeur et la hauteur.-->
+<!--Si vous modifiez manuellement cette section et commettez une erreur, vous pouvez la supprimer. -->
+<!--Le package pourra toujours se charger normalement, mais les informations de disposition précédente seront perdues et le concepteur réorganisera automatiquement les éléments sur l'aire de conception.-->
+<Objects
+  Version="8">
+  <!--Chaque nœud ci-dessous contiendra des propriétés qui n'affectent pas le comportement d'exécution.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="200,41.6"
+          Id="Package\Tâche de flux de données"
+          TopLeft="147.142857456085,175.117646905326" />
+        <NodeLayout
+          Size="244.8,41.6"
+          Id="Package\Tâche d'exécution de requêtes SQL"
+          TopLeft="172.142857509304,34.4117646757191" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Contrainte]"
+          TopLeft="294.542857509304,76.0117646757191">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-47.4000000532187,99.105882229607"
+              Start="0,0"
+              End="-47.4000000532187,91.605882229607">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,45.5529411148035" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,45.5529411148035"
+                    Point2="0,49.5529411148035"
+                    Point3="-4,49.5529411148035" />
+                  <mssgle:LineSegment
+                    End="-43.4000000532187,49.5529411148035" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-43.4000000532187,49.5529411148035"
+                    Point2="-47.4000000532187,49.5529411148035"
+                    Point3="-47.4000000532187,53.5529411148035" />
+                  <mssgle:LineSegment
+                    End="-47.4000000532187,91.605882229607" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Tâche de flux de données">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="140.8,41.6"
+          Id="Package\Tâche de flux de données\Multidiffusion"
+          TopLeft="174.948979964258,218.241596447359" />
+        <NodeLayout
+          Size="148,41.6"
+          Id="Package\Tâche de flux de données\Dim_Customer"
+          TopLeft="198.469388177592,350.945377843643" />
+        <NodeLayout
+          Size="153.6,41.6"
+          Id="Package\Tâche de flux de données\Dim_Geography"
+          TopLeft="384.991497418186,359.470587932225" />
+        <NodeLayout
+          Size="138.4,41.6"
+          Id="Package\Tâche de flux de données\Dim_Product"
+          TopLeft="521.522109953721,301.762604789531" />
+        <NodeLayout
+          Size="170.4,41.6"
+          Id="Package\Tâche de flux de données\Destination OLE DB"
+          TopLeft="642.194899132107,169.600840187472" />
+        <NodeLayout
+          Size="138.4,41.6"
+          Id="Package\Tâche de flux de données\Source Excel"
+          TopLeft="160.408163606773,0.764705881682634" />
+        <NodeLayout
+          Size="154.4,41.6"
+          Id="Package\Tâche de flux de données\Colonne dérivée"
+          TopLeft="156.938775844286,100.231092349118" />
+        <NodeLayout
+          Size="124.8,41.6"
+          Id="Package\Tâche de flux de données\Dim_Date"
+          TopLeft="36.122449056487,354.268907280544" />
+        <EdgeLayout
+          Id="Package\Tâche de flux de données.Paths[Sortie de multidiffusion 5]"
+          TopLeft="258.628979964258,259.841596447359">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="203.162517453928,99.6289914848663"
+              Start="0,0"
+              End="203.162517453928,92.1289914848663">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.6267879047645" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,40.6267879047645"
+                    Point2="0,44.6267879047645"
+                    Point3="4,44.6267879047645" />
+                  <mssgle:LineSegment
+                    End="199.162517453928,44.6267879047645" />
+                  <mssgle:CubicBezierSegment
+                    Point1="199.162517453928,44.6267879047645"
+                    Point2="203.162517453928,44.6267879047645"
+                    Point3="203.162517453928,48.6267879047645" />
+                  <mssgle:LineSegment
+                    End="203.162517453928,92.1289914848663" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Tâche de flux de données.Paths[Sortie de multidiffusion 4]"
+          TopLeft="285.188979964258,259.841596447359">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="305.533129989463,41.9210083421723"
+              Start="0,0"
+              End="305.533129989463,34.4210083421723">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,8.68924341260684" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,8.68924341260684"
+                    Point2="0,12.6892434126068"
+                    Point3="4,12.6892434126068" />
+                  <mssgle:LineSegment
+                    End="301.533129989463,12.6892434126068" />
+                  <mssgle:CubicBezierSegment
+                    Point1="301.533129989463,12.6892434126068"
+                    Point2="305.533129989463,12.6892434126068"
+                    Point3="305.533129989463,16.6892434126068" />
+                  <mssgle:LineSegment
+                    End="305.533129989463,34.4210083421723" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Tâche de flux de données.Paths[Sortie de multidiffusion 3]"
+          TopLeft="205.508979964258,259.841596447359">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-106.986530907771,94.4273108331853"
+              Start="0,0"
+              End="-106.986530907771,86.9273108331853">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.5825932949895" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,24.5825932949895"
+                    Point2="0,28.5825932949895"
+                    Point3="-4,28.5825932949895" />
+                  <mssgle:LineSegment
+                    End="-102.986530907771,28.5825932949895" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-102.986530907771,28.5825932949895"
+                    Point2="-106.986530907771,28.5825932949895"
+                    Point3="-106.986530907771,32.5825932949895" />
+                  <mssgle:LineSegment
+                    End="-106.986530907771,86.9273108331853" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Tâche de flux de données.Paths[Sortie de multidiffusion 2]"
+          TopLeft="232.068979964258,259.841596447359">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="40.4004082133342,91.1037813962843"
+              Start="0,0"
+              End="40.4004082133342,83.6037813962843">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.8080927960772" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,36.8080927960772"
+                    Point2="0,40.8080927960772"
+                    Point3="4,40.8080927960772" />
+                  <mssgle:LineSegment
+                    End="36.4004082133342,40.8080927960772" />
+                  <mssgle:CubicBezierSegment
+                    Point1="36.4004082133342,40.8080927960772"
+                    Point2="40.4004082133342,40.8080927960772"
+                    Point3="40.4004082133342,44.8080927960772" />
+                  <mssgle:LineSegment
+                    End="40.4004082133342,83.6037813962843" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Tâche de flux de données.Paths[Sortie de colonne dérivée]"
+          TopLeft="234.138775844286,141.831092349118">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="11.2102041199718,76.4105040982403"
+              Start="0,0"
+              End="11.2102041199718,68.9105040982403">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.2052520491201" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,34.2052520491201"
+                    Point2="0,38.2052520491201"
+                    Point3="4,38.2052520491201" />
+                  <mssgle:LineSegment
+                    End="7.21020411997179,38.2052520491201" />
+                  <mssgle:CubicBezierSegment
+                    Point1="7.21020411997179,38.2052520491201"
+                    Point2="11.2102041199718,38.2052520491201"
+                    Point3="11.2102041199718,42.2052520491201" />
+                  <mssgle:LineSegment
+                    End="11.2102041199718,68.9105040982403" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Tâche de flux de données.Paths[Sortie de multidiffusion 6]"
+          TopLeft="315.748979964258,239.041596447359">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="326.445919167849,-48.6407562598867"
+              Start="0,0"
+              End="318.945919167849,-48.6407562598867">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="159.222959583925,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="159.222959583925,0"
+                    Point2="163.222959583925,0"
+                    Point3="163.222959583925,-4" />
+                  <mssgle:LineSegment
+                    End="163.222959583925,-44.6407562598867" />
+                  <mssgle:CubicBezierSegment
+                    Point1="163.222959583925,-44.6407562598867"
+                    Point2="163.222959583925,-48.6407562598867"
+                    Point3="167.222959583925,-48.6407562598867" />
+                  <mssgle:LineSegment
+                    End="318.945919167849,-48.6407562598867" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Tâche de flux de données.Paths[Sortie de source Excel]"
+          TopLeft="231.87346972553,42.3647058816826">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,57.8663864674357"
+              Start="0,0"
+              End="0,50.3663864674357">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,50.3663864674357" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Tâche de flux de données\Dim_Customer">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Tâche de flux de données\Dim_Geography">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Tâche de flux de données\Dim_Product">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Tâche de flux de données\Destination OLE DB">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Tâche de flux de données\Source Excel">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Tâche de flux de données\Dim_Date">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
